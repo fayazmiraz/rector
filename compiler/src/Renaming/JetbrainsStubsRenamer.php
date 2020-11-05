@@ -5,7 +5,7 @@ declare(strict_types=1);
 namespace Rector\Compiler\Renaming;
 
 use Nette\Utils\Strings;
-use Rector\Compiler\Exception\CompilerShouldNotHappenException;
+use Rector\Core\Exception\ShouldNotHappenException;
 use Symfony\Component\Console\Style\SymfonyStyle;
 use Symfony\Component\Finder\Finder;
 use Symfony\Component\Finder\SplFileInfo;
@@ -35,13 +35,8 @@ final class JetbrainsStubsRenamer
         $this->smartFileSystem = $smartFileSystem;
     }
 
-    public function renamePhpStormStubs(string $buildDir): void
+    public function renamePhpStormStubs(string $directory): void
     {
-        $directory = $buildDir . '/vendor/jetbrains/phpstorm-stubs';
-        if (! is_dir($directory)) {
-            return;
-        }
-
         $this->renameStubFileSuffixes($directory);
         $this->renameFilesSuffixesInPhpStormStubsMapFile($directory);
     }
@@ -69,7 +64,7 @@ final class JetbrainsStubsRenamer
         $stubsMapPath = $phpStormStubsDirectory . '/PhpStormStubsMap.php';
 
         if (! file_exists($stubsMapPath)) {
-            throw new CompilerShouldNotHappenException(sprintf('File "%s" was not found', $stubsMapPath));
+            throw new ShouldNotHappenException(sprintf('File "%s" was not found', $stubsMapPath));
         }
 
         $stubsMapContents = $this->smartFileSystem->readFile($stubsMapPath);
@@ -84,10 +79,7 @@ final class JetbrainsStubsRenamer
     private function getStubFileInfos(string $phpStormStubsDirectory): array
     {
         if (! is_dir($phpStormStubsDirectory)) {
-            throw new CompilerShouldNotHappenException(sprintf(
-                'Directory "%s" was not found',
-                $phpStormStubsDirectory
-            ));
+            throw new ShouldNotHappenException(sprintf('Directory "%s" was not found', $phpStormStubsDirectory));
         }
 
         $stubFinder = Finder::create()

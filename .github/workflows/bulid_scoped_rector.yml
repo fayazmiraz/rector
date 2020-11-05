@@ -1,0 +1,68 @@
+name: Build Scoped Rector
+
+on:
+    push:
+        branches:
+            - master
+    release:
+        types:
+            - published
+
+jobs:
+    build_scoped_rector:
+        runs-on: ubuntu-latest
+        steps:
+            -
+                name: Get Current Tag
+                # see https://docs.github.com/en/free-pro-team@latest/actions/reference/workflow-commands-for-github-actions#example-4
+                if: $GITHUB_REF == refs/tags/*
+                run: echo "CURRENT_TAG=$($GITHUB_REF#refs/tags/)" >> $GITHUB_ENV
+
+            -   run: echo $CURRENT_TAG
+
+            -   uses: actions/checkout@v2
+
+            -
+                uses: shivammathur/setup-php@v2
+                with:
+                    php-version: 7.2
+                    tools: composer:v2
+
+            # 1. prepare dependencies
+            # replace phpstan.phar with phpstan-src, see https://github.com/phpstan/phpstan-src
+            -   run: composer remove phpstan/phpstan
+            -   run: composer config repositories.repo-name vcs https://github.com/phpstan/phpstan-src.git
+            -   run: composer require phpstan/phpstan-src:dev-master --no-update
+
+            # mimics PHPStan https://github.com/phpstan/phpstan-src/blob/d3be969b13654394d0186b9597449d44477f0012/composer.json#L17
+            -   run: composer require jetbrains/phpstorm-stubs:dev-master#05d145c0bbafcf9a551fdd8824adb2a7e259fdaf --no-update
+            -   run: composer update --no-progress --ansi
+
+            # downgrade PHPStan code to PHP 7.2
+            -   run: bin/rector process vendor/phpstan/phpstan-src/src --config ci/downgrade-phpstan-php74-rector.php
+
+            # 2. scope it
+            -   run: wget https://github.com/humbug/php-scoper/releases/download/0.13.8/php-scoper.phar
+            -   run: php php-scoper.phar add-prefix . --output-dir rector-scoped scoper.inc.php --force --ansi
+            -   run: rm rector-scoped/php-scoper.phar
+            -   run: composer dump-autoload --working-dir rector-scoped --ansi --optimize --classmap-authoritative
+            -   run: vendor/bin/package-scoper scope-composer-json rector-scoped/composer.json --ansi
+
+            # 3. run it
+            -   run: chmod 777 rector-scoped/bin/rector
+            # remove local phpstan.neon, that loads just removed configs
+            -   run: rm phpstan.neon
+            -   run: rector-scoped/bin/rector
+
+            # 4. publish it to remote repository
+            # see https://github.com/cpina/github-action-push-to-another-repository
+            -
+                name: Pushes to another repository
+                uses: cpina/github-action-push-to-another-repository@master
+                env:
+                    API_TOKEN_GITHUB: ${{ secrets.ACCESS_TOKEN }}
+                with:
+                    source-directory: 'rector-scoped'
+                    destination-github-username: 'rectorphp'
+                    destination-repository-name: 'rector-prefixed'
+                    user-email: tomas@getrector.org
