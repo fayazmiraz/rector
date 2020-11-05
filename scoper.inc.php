@@ -14,18 +14,12 @@ use Rector\Compiler\PhpScoper\WhitelistedStubsProvider;
 
 $whitelistedStubsProvider = new WhitelistedStubsProvider();
 
+// see https://github.com/humbug/php-scoper
+
 return [
-    'prefix' => null,
-    'finders' => [],
     'files-whitelist' => $whitelistedStubsProvider->provide(),
+    'whitelist' => StaticEasyPrefixer::getExcludedNamespacesAndClasses(),
     'patchers' => [
-//        function (string $filePath, string $prefix, string $content): string {
-//            if ($filePath !== 'bin/rector') {
-//                return $content;
-//            }
-//
-//            return str_replace("__DIR__ . '/..", "'phar://rector.phar", $content);
-//        },
         function (string $filePath, string $prefix, string $content): string {
             if ($filePath !== 'vendor/nette/di/src/DI/Compiler.php') {
                 return $content;
@@ -183,5 +177,4 @@ return [
             );
         },
     ],
-    'whitelist' => StaticEasyPrefixer::getExcludedNamespacesAndClasses(),
 ];

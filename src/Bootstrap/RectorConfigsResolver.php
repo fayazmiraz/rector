@@ -4,7 +4,6 @@ declare(strict_types=1);
 
 namespace Rector\Core\Bootstrap;
 
-use Rector\Core\Set\SetResolver;
 use Rector\Set\RectorSetProvider;
 use Symfony\Component\Console\Input\ArgvInput;
 use Symplify\SetConfigResolver\ConfigResolver;
@@ -13,11 +12,6 @@ use Symplify\SmartFileSystem\SmartFileInfo;
 
 final class RectorConfigsResolver
 {
-    /**
-     * @var SetResolver
-     */
-    private $setResolver;
-
     /**
      * @var ConfigResolver
      */
@@ -30,7 +24,6 @@ final class RectorConfigsResolver
 
     public function __construct()
     {
-        $this->setResolver = new SetResolver();
         $this->configResolver = new ConfigResolver();
         $rectorSetProvider = new RectorSetProvider();
         $this->setAwareConfigResolver = new SetAwareConfigResolver($rectorSetProvider);
@@ -60,13 +53,7 @@ final class RectorConfigsResolver
     {
         $configFileInfos = [];
 
-        // Detect configuration from --set
         $argvInput = new ArgvInput();
-
-        $set = $this->setResolver->resolveSetFromInput($argvInput);
-        if ($set !== null) {
-            $configFileInfos[] = $set->getSetFileInfo();
-        }
 
         // And from --config or default one
         $inputOrFallbackConfigFileInfo = $this->configResolver->resolveFromInputWithFallback(

@@ -1,4 +1,88 @@
+<<<<<<< HEAD
 # Rules Overview
+=======
+# All 603 Rectors Overview
+
+- [Projects](#projects)
+---
+
+## Projects
+
+- [Architecture](#architecture) (2)
+- [Autodiscovery](#autodiscovery) (4)
+- [CakePHP](#cakephp) (6)
+- [CodeQuality](#codequality) (61)
+- [CodingStyle](#codingstyle) (33)
+- [DeadCode](#deadcode) (41)
+- [Defluent](#defluent) (8)
+- [Doctrine](#doctrine) (17)
+- [DoctrineCodeQuality](#doctrinecodequality) (11)
+- [DoctrineGedmoToKnplabs](#doctrinegedmotoknplabs) (7)
+- [DowngradePhp71](#downgradephp71) (3)
+- [DowngradePhp72](#downgradephp72) (2)
+- [DowngradePhp73](#downgradephp73) (2)
+- [DowngradePhp74](#downgradephp74) (7)
+- [DowngradePhp80](#downgradephp80) (6)
+- [FileSystemRector](#filesystemrector) (1)
+- [Generic](#generic) (34)
+- [JMS](#jms) (2)
+- [Laravel](#laravel) (3)
+- [Legacy](#legacy) (4)
+- [MagicDisclosure](#magicdisclosure) (3)
+- [MockeryToProphecy](#mockerytoprophecy) (2)
+- [MockistaToMockery](#mockistatomockery) (2)
+- [MysqlToMysqli](#mysqltomysqli) (4)
+- [Naming](#naming) (11)
+- [Nette](#nette) (20)
+- [NetteCodeQuality](#nettecodequality) (6)
+- [NetteKdyby](#nettekdyby) (4)
+- [NetteTesterToPHPUnit](#nettetestertophpunit) (3)
+- [NetteToSymfony](#nettetosymfony) (9)
+- [NetteUtilsCodeQuality](#netteutilscodequality) (1)
+- [Order](#order) (9)
+- [PHPOffice](#phpoffice) (14)
+- [PHPStan](#phpstan) (3)
+- [PHPUnit](#phpunit) (38)
+- [PHPUnitSymfony](#phpunitsymfony) (1)
+- [PSR4](#psr4) (2)
+- [Performance](#performance) (2)
+- [Phalcon](#phalcon) (4)
+- [Php52](#php52) (2)
+- [Php53](#php53) (4)
+- [Php54](#php54) (2)
+- [Php55](#php55) (2)
+- [Php56](#php56) (2)
+- [Php70](#php70) (19)
+- [Php71](#php71) (9)
+- [Php72](#php72) (11)
+- [Php73](#php73) (10)
+- [Php74](#php74) (15)
+- [Php80](#php80) (12)
+- [PhpDeglobalize](#phpdeglobalize) (1)
+- [PhpSpecToPHPUnit](#phpspectophpunit) (7)
+- [Polyfill](#polyfill) (2)
+- [Privatization](#privatization) (7)
+- [RectorGenerator](#rectorgenerator) (1)
+- [RemovingStatic](#removingstatic) (6)
+- [Renaming](#renaming) (10)
+- [Restoration](#restoration) (9)
+- [SOLID](#solid) (14)
+- [Sensio](#sensio) (3)
+- [StrictCodeQuality](#strictcodequality) (1)
+- [Symfony](#symfony) (34)
+- [SymfonyCodeQuality](#symfonycodequality) (1)
+- [SymfonyPHPUnit](#symfonyphpunit) (1)
+- [SymfonyPhpConfig](#symfonyphpconfig) (3)
+- [Transform](#transform) (12)
+- [Twig](#twig) (1)
+- [TypeDeclaration](#typedeclaration) (10)
+
+## Architecture
+
+### `ReplaceParentRepositoryCallsByRepositoryPropertyRector`
+
+- class: [`Rector\Architecture\Rector\MethodCall\ReplaceParentRepositoryCallsByRepositoryPropertyRector`](/rules/architecture/src/Rector/MethodCall/ReplaceParentRepositoryCallsByRepositoryPropertyRector.php)
+>>>>>>> cleanup
 
 ## AbsolutizeRequireAndIncludePathRector
 
@@ -4445,6 +4529,7 @@ Replace array spread with `array_merge` function
 
 <br>
 
+<<<<<<< HEAD
 ## DowngradeClassConstantVisibilityRector
 
 Downgrade class constant visibility
@@ -4465,10 +4550,19 @@ return static function (ContainerConfigurator $containerConfigurator): void {
 ```
 
 ↓
+=======
+### `RemoveRedundantDefaultClassAnnotationValuesRector`
+
+- class: [`Rector\DoctrineCodeQuality\Rector\Class_\RemoveRedundantDefaultClassAnnotationValuesRector`](/rules/doctrine-code-quality/src/Rector/Class_/RemoveRedundantDefaultClassAnnotationValuesRector.php)
+- [test fixtures](/rules/doctrine-code-quality/tests/Rector/Class_/RemoveRedundantDefaultClassAnnotationValuesRector/Fixture)
+
+Removes redundant default values from Doctrine ORM annotations on class level
+>>>>>>> cleanup
 
 ```diff
  <?php
 
+<<<<<<< HEAD
  class SomeClass
  {
 -   public const PUBLIC_CONST_B = 2;
@@ -4477,6 +4571,14 @@ return static function (ContainerConfigurator $containerConfigurator): void {
 +   const PUBLIC_CONST_B = 2;
 +   const PROTECTED_CONST = 3;
 +   const PRIVATE_CONST = 4;
+=======
+ /**
+- * @ORM\Entity(readOnly=false)
++ * @ORM\Entity()
+  */
+ class SomeClass
+ {
+>>>>>>> cleanup
  }
 ```
 
@@ -4484,6 +4586,7 @@ return static function (ContainerConfigurator $containerConfigurator): void {
 
 ## DowngradeFlexibleHeredocSyntaxRector
 
+<<<<<<< HEAD
 Changes heredoc/nowdoc that contains closing word to safe wrapper name
 
 - class: `Rector\DowngradePhp73\Rector\String_\DowngradeFlexibleHeredocSyntaxRector`
@@ -4498,6 +4601,28 @@ Changes heredoc/nowdoc that contains closing word to safe wrapper name
 +FROM `table`
 +WHERE `column` = true;
 +SQL;
+=======
+- class: [`Rector\DoctrineCodeQuality\Rector\Property\RemoveRedundantDefaultPropertyAnnotationValuesRector`](/rules/doctrine-code-quality/src/Rector/Property/RemoveRedundantDefaultPropertyAnnotationValuesRector.php)
+- [test fixtures](/rules/doctrine-code-quality/tests/Rector/Property/RemoveRedundantDefaultPropertyAnnotationValuesRector/Fixture)
+
+Removes redundant default values from Doctrine ORM annotations on class property level
+
+```diff
+ use Doctrine\ORM\Mapping as ORM;
+
+ /**
+  * @ORM\Entity
+  */
+ class SomeClass
+ {
+     /**
+      * @ORM\ManyToOne(targetEntity=Training::class)
+-     * @ORM\JoinColumn(name="training", unique=false)
++     * @ORM\JoinColumn(name="training")
+      */
+     private $training;
+ }
+>>>>>>> cleanup
 ```
 
 <br>

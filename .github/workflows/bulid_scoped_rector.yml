@@ -1,9 +1,11 @@
 name: Build Scoped Rector
 
+# builds the content of https://github.com/rectorphp/rector-prefixed
 on:
     push:
         branches:
             - master
+    pull_request: null
     release:
         types:
             - published
@@ -13,9 +15,9 @@ jobs:
         runs-on: ubuntu-latest
         steps:
             -
+                if: contains(github.ref, 'refs/tags/')
                 name: Get Current Tag
                 # see https://docs.github.com/en/free-pro-team@latest/actions/reference/workflow-commands-for-github-actions#example-4
-                if: $GITHUB_REF == refs/tags/*
                 run: echo "CURRENT_TAG=$($GITHUB_REF#refs/tags/)" >> $GITHUB_ENV
 
             -   run: echo $CURRENT_TAG
@@ -25,15 +27,18 @@ jobs:
             -
                 uses: shivammathur/setup-php@v2
                 with:
-                    php-version: 7.2
+                    # this must be PHP 7.4, as phpstan-src requires it
+                    php-version: 7.4
                     tools: composer:v2
+                # fixes https://github.com/rectorphp/rector/pull/4559/checks?check_run_id=1359814403, see https://github.com/shivammathur/setup-php#composer-github-oauth
+                env:
+                    COMPOSER_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
             # 1. prepare dependencies
             # replace phpstan.phar with phpstan-src, see https://github.com/phpstan/phpstan-src
-            -   run: composer remove phpstan/phpstan
+            -   run: composer remove phpstan/phpstan --no-update
             -   run: composer config repositories.repo-name vcs https://github.com/phpstan/phpstan-src.git
-            -   run: composer require phpstan/phpstan-src:dev-master --no-update
-
+            -   run: composer require phpstan/phpstan-src:@dev --no-update
             # mimics PHPStan https://github.com/phpstan/phpstan-src/blob/d3be969b13654394d0186b9597449d44477f0012/composer.json#L17
             -   run: composer require jetbrains/phpstorm-stubs:dev-master#05d145c0bbafcf9a551fdd8824adb2a7e259fdaf --no-update
             -   run: composer update --no-progress --ansi

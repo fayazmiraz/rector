@@ -3,6 +3,7 @@ includes:
     - vendor/phpstan/phpstan/conf/bleedingEdge.neon
     - vendor/symplify/phpstan-extensions/config/config.neon
 
+<<<<<<< HEAD
     # see https://github.com/symplify/coding-standard
     # - vendor/symplify/phpstan-rules/config/configurable-rules.neon
     - vendor/symplify/phpstan-rules/config/static-rules.neon
@@ -82,6 +83,75 @@ services:
             parentClasses:
                 - Rector
 
+=======
+    # see https://github.com/symplify/phpstan-rules
+#    open later
+#    - vendor/symplify/phpstan-rules/config/symplify-rules.neon
+    - vendor/symplify/phpstan-rules/packages/cognitive-complexity/config/cognitive-complexity-services.neon
+
+services:
+#    -
+#        class: Symplify\PHPStanRules\CognitiveComplexity\Rules\FunctionLikeCognitiveComplexityRule
+#        tags: [phpstan.rules.rule]
+#        arguments:
+#            maxMethodCognitiveComplexity: 9
+#
+#    -
+#        class: Symplify\PHPStanRules\CognitiveComplexity\Rules\ClassLikeCognitiveComplexityRule
+#        tags: [phpstan.rules.rule]
+#        arguments:
+#            maxClassCognitiveComplexity: 50
+#
+#    # require constant in argument position
+#    -
+#        class: Symplify\PHPStanRules\Rules\RequireMethodCallArgumentConstantRule
+#        tags: [phpstan.rules.rule]
+#        arguments:
+#            constantArgByMethodByType:
+#                Symfony\Component\Console\Command\Command:
+#                    addArgument: [0]
+#                    addOption: [0]
+#                Symfony\Component\Console\Input\InputInterface:
+#                    getOption: [0]
+#                    getArgument: [0]
+#                PhpParser\Node:
+#                    getAttribute: [0]
+#                    setAttribute: [0]
+#
+#    -
+#        class: Symplify\PHPStanRules\Rules\SeeAnnotationToTestRule
+#        tags: [phpstan.rules.rule]
+#        arguments:
+#            requiredSeeTypes:
+#                - PHPStan\Rules\Rule
+#                - Rector\Core\Rector\AbstractRector
+#                - Rector\FileSystemRector\Rector\AbstractFileSystemRector
+#
+#    -
+#        class: Symplify\PHPStanRules\Rules\NoStaticCallRule
+#        tags: [phpstan.rules.rule]
+#        arguments:
+#            allowedStaticCallClasses:
+#                - PHPStan\Type\VerbosityLevel
+#                - Rector\NodeTypeResolver\ClassExistenceStaticHelper
+#
+#    # this rule prevents bug in phar like these: https://github.com/rectorphp/rector/pull/3692/files
+#    -
+#        class: Symplify\PHPStanRules\Rules\RequireStringArgumentInMethodCallRule
+#        tags: [phpstan.rules.rule]
+#        arguments:
+#            stringArgByMethodByType:
+#                Rector\Core\Rector\AbstractRector:
+#                    isObjectType: [1]
+#
+#    -
+#        class: Symplify\PHPStanRules\Rules\ClassNameRespectsParentSuffixRule
+#        tags: [phpstan.rules.rule]
+#        arguments:
+#            parentClasses:
+#                - Rector
+#
+>>>>>>> cleanup
 #    -
 #        class: Symplify\PHPStanRules\Rules\PreferredClassRule
 #        tags: [phpstan.rules.rule]
@@ -94,6 +164,10 @@ services:
 #                'phpDocumentor\Reflection\DocBlock\Tags\Return_': 'PhpParser\Node\Stmt\Return_'
 #                'Closure': 'PhpParser\Node\Expr\Closure'
 #                'PHPUnit\TextUI\Configuration\Variable': 'PhpParser\Node\Expr\Variable'
+<<<<<<< HEAD
+=======
+#                'PhpCsFixer\FixerDefinition\CodeSample': 'Rector\Core\RectorDefinition\CodeSample'
+>>>>>>> cleanup
 #                'SebastianBergmann\Type\MixedType': 'PHPStan\Type\MixedType'
 #                'Hoa\Protocol\Node\Node': 'PhpParser\Node'
 #                'Nette\Utils\FileSystem': 'Symplify\SmartFileSystem\SmartFileSystem'
@@ -106,6 +180,10 @@ services:
 #                PhpParser\Builder\Param: Rector\Core\PhpParser\Builder\ParamBuilder
 #                PhpParser\Builder\Property: Rector\Core\PhpParser\Builder\PropertyBuilder
 #                PhpParser\Builder\TraitUse: Rector\Core\PhpParser\Builder\TraitUseBuilder
+<<<<<<< HEAD
+=======
+
+>>>>>>> cleanup
 
 parameters:
     level: max

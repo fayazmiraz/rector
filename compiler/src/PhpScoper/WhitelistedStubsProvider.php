@@ -16,11 +16,11 @@ final class WhitelistedStubsProvider
     {
         $stubs = [
             // @see https://github.com/rectorphp/rector/issues/2852#issuecomment-586315588
-            '../../../vendor/hoa/consistency/Prelude.php',
+            'vendor/hoa/consistency/Prelude.php',
         ];
 
         // mirrors https://github.com/phpstan/phpstan-src/commit/04f777bc4445725d17dac65c989400485454b145
-        $stubsDirectory = __DIR__ . '/../../../vendor/jetbrains/phpstorm-stubs';
+        $stubsDirectory = __DIR__ . '/../../vendor/jetbrains/phpstorm-stubs';
         if (file_exists($stubsDirectory)) {
             $stubFinder = Finder::create()
                 ->files()

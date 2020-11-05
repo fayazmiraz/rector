@@ -63,6 +63,11 @@
         "symplify/skipper": "dev-master",
         "symplify/package-scoper" : "dev-master",
         "symplify/symplify-kernel": "dev-master",
+<<<<<<< HEAD
+=======
+        "symplify/phpstan-extensions": "dev-master",
+        "symplify/phpstan-rules": "dev-master#369c858",
+>>>>>>> cleanup
         "tracy/tracy": "^2.7"
     },
     "replace": {
