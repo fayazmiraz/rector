@@ -4,7 +4,6 @@ declare(strict_types=1);
 
 namespace Rector\Compiler\Console\Command;
 
-use OndraM\CiDetector\CiDetector;
 use Rector\Compiler\Composer\ComposerJsonManipulator;
 use Rector\Compiler\Renaming\JetbrainsStubsRenamer;
 use Rector\Compiler\ValueObject\Option;
@@ -58,11 +57,6 @@ final class CompileCommand extends Command
     private $jetbrainsStubsRenamer;
 
     /**
-     * @var CiDetector
-     */
-    private $ciDetector;
-
-    /**
      * @var SmartFileSystem
      */
     private $smartFileSystem;
@@ -71,7 +65,6 @@ final class CompileCommand extends Command
         ComposerJsonManipulator $composerJsonManipulator,
         SymfonyStyle $symfonyStyle,
         JetbrainsStubsRenamer $jetbrainsStubsRenamer,
-        CiDetector $ciDetector,
         SmartFileSystem $smartFileSystem,
         ParameterProvider $parameterProvider
     ) {
@@ -81,7 +74,6 @@ final class CompileCommand extends Command
         $this->composerJsonManipulator = $composerJsonManipulator;
         $this->jetbrainsStubsRenamer = $jetbrainsStubsRenamer;
         $this->symfonyStyle = $symfonyStyle;
-        $this->ciDetector = $ciDetector;
         $this->smartFileSystem = $smartFileSystem;
 
         parent::__construct();
@@ -110,18 +102,18 @@ final class CompileCommand extends Command
 
         $this->symfonyStyle->title('2. Running "composer update" without dev');
 
-        $process = new Process([
-            'composer',
-            'update',
-            '--no-dev',
-            '--prefer-dist',
-            '--no-interaction',
-            '--classmap-authoritative',
-            self::ANSI,
-        ], $this->buildDir, null, null, null);
-        $process->mustRun(static function (string $type, string $buffer) use ($output): void {
-            $output->write($buffer);
-        });
+//        $process = new Process([
+//            'composer',
+//            'update',
+//            '--no-dev',
+//            '--prefer-dist',
+//            '--no-interaction',
+//            '--classmap-authoritative',
+//            self::ANSI,
+//        ], $this->buildDir, null, null, null);
+//        $process->mustRun(static function (string $type, string $buffer) use ($output): void {
+//            $output->write($buffer);
+//        });
 
         $this->symfonyStyle->success(self::DONE);
 
@@ -175,22 +167,10 @@ final class CompileCommand extends Command
         // downgrade phpstan-src code from PHP 7.4 to PHP 7.1, see https://github.com/phpstan/phpstan-src/pull/202/files
         $this->fixRequirePath();
 
-        $process = new Process(['php', 'vendor/phpstan/phpstan-src/bin/transform-source.php'], $this->buildDir);
-        $process->mustRun(static function (string $type, string $buffer) use ($output): void {
-            $output->write($buffer);
-        });
-    }
-
-    private function restoreDependenciesLocallyIfNotCi(OutputInterface $output): void
-    {
-        if ($this->ciDetector->isCiDetected()) {
-            return;
-        }
-
-        $process = new Process(['composer', 'install', self::ANSI], $this->buildDir, null, null, null);
-        $process->mustRun(static function (string $type, string $buffer) use ($output): void {
-            $output->write($buffer);
-        });
+//        $process = new Process(['php', 'vendor/phpstan/phpstan-src/bin/transform-source.php'], $this->buildDir);
+//        $process->mustRun(static function (string $type, string $buffer) use ($output): void {
+//            $output->write($buffer);
+//        });
     }
 
     private function fixRequirePath(): void

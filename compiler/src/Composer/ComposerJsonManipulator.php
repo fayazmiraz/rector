@@ -109,10 +109,6 @@ final class ComposerJsonManipulator
         $json[self::REQUIRE]['phpstan/phpstan-src'] = 'dev-master';
         unset($json[self::REQUIRE][self::PHPSTAN_PHPSTAN]);
 
-        $json['repositories'][] = [
-            'type' => 'vcs',
-            'url' => 'https://github.com/phpstan/phpstan-src.git',
-        ];
 
         $json = $this->addDevDependenciesFromPHPStan($json, $phpstanVersion);
 
