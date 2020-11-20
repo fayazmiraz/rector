@@ -9,8 +9,10 @@ require_once __DIR__ . '/vendor/autoload.php';
 
 use Nette\Neon\Neon;
 use Nette\Utils\Strings;
-use Rector\Compiler\PhpScoper\StaticEasyPrefixer;
 use Rector\Compiler\PhpScoper\WhitelistedStubsProvider;
+
+require_once __DIR__ . '/packages/compiler/src/PhpScoper/StaticEasyPrefixer.php';
+require_once __DIR__ . '/packages/compiler/src/PhpScoper/WhitelistedStubsProvider.php';
 
 $whitelistedStubsProvider = new WhitelistedStubsProvider();
 
@@ -18,7 +20,7 @@ $whitelistedStubsProvider = new WhitelistedStubsProvider();
 
 return [
     'files-whitelist' => $whitelistedStubsProvider->provide(),
-    'whitelist' => StaticEasyPrefixer::getExcludedNamespacesAndClasses(),
+    'whitelist' => \Rector\Compiler\PhpScoper\StaticEasyPrefixer::getExcludedNamespacesAndClasses(),
     'patchers' => [
         function (string $filePath, string $prefix, string $content): string {
             if ($filePath !== 'vendor/nette/di/src/DI/Compiler.php') {

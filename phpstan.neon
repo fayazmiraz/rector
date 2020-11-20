@@ -3,7 +3,6 @@ includes:
     - vendor/phpstan/phpstan/conf/bleedingEdge.neon
     - vendor/symplify/phpstan-extensions/config/config.neon
 
-<<<<<<< HEAD
     # see https://github.com/symplify/coding-standard
     # - vendor/symplify/phpstan-rules/config/configurable-rules.neon
     - vendor/symplify/phpstan-rules/config/static-rules.neon
@@ -23,6 +22,14 @@ includes:
 
 services:
     -
+        class: Symplify\PHPStanRules\Rules\RequireClassTypeInClassMethodByTypeRule
+        tags: [phpstan.rules.rule]
+        arguments:
+            requiredTypeInMethodByClass:
+                Rector\Core\Contract\Rector\PhpRectorInterface:
+                    getNodeTypes: 'PhpParser\Node'
+
+    -
         class: Symplify\PHPStanRules\CognitiveComplexity\Rules\FunctionLikeCognitiveComplexityRule
         tags: [phpstan.rules.rule]
         arguments:
@@ -33,6 +40,10 @@ services:
         tags: [phpstan.rules.rule]
         arguments:
             maxClassCognitiveComplexity: 50
+            limitsByTypes:
+                Rector\Core\Rector\AbstractRector: 40
+                Symfony\Component\Console\Command\Command: 40
+                PHPStan\Rule\Rule: 30
 
     # require constant in argument position
     -
@@ -83,75 +94,11 @@ services:
             parentClasses:
                 - Rector
 
-=======
     # see https://github.com/symplify/phpstan-rules
 #    open later
 #    - vendor/symplify/phpstan-rules/config/symplify-rules.neon
-    - vendor/symplify/phpstan-rules/packages/cognitive-complexity/config/cognitive-complexity-services.neon
-
-services:
-#    -
-#        class: Symplify\PHPStanRules\CognitiveComplexity\Rules\FunctionLikeCognitiveComplexityRule
-#        tags: [phpstan.rules.rule]
-#        arguments:
-#            maxMethodCognitiveComplexity: 9
+#    - vendor/symplify/phpstan-rules/packages/cognitive-complexity/config/cognitive-complexity-services.neon
 #
-#    -
-#        class: Symplify\PHPStanRules\CognitiveComplexity\Rules\ClassLikeCognitiveComplexityRule
-#        tags: [phpstan.rules.rule]
-#        arguments:
-#            maxClassCognitiveComplexity: 50
-#
-#    # require constant in argument position
-#    -
-#        class: Symplify\PHPStanRules\Rules\RequireMethodCallArgumentConstantRule
-#        tags: [phpstan.rules.rule]
-#        arguments:
-#            constantArgByMethodByType:
-#                Symfony\Component\Console\Command\Command:
-#                    addArgument: [0]
-#                    addOption: [0]
-#                Symfony\Component\Console\Input\InputInterface:
-#                    getOption: [0]
-#                    getArgument: [0]
-#                PhpParser\Node:
-#                    getAttribute: [0]
-#                    setAttribute: [0]
-#
-#    -
-#        class: Symplify\PHPStanRules\Rules\SeeAnnotationToTestRule
-#        tags: [phpstan.rules.rule]
-#        arguments:
-#            requiredSeeTypes:
-#                - PHPStan\Rules\Rule
-#                - Rector\Core\Rector\AbstractRector
-#                - Rector\FileSystemRector\Rector\AbstractFileSystemRector
-#
-#    -
-#        class: Symplify\PHPStanRules\Rules\NoStaticCallRule
-#        tags: [phpstan.rules.rule]
-#        arguments:
-#            allowedStaticCallClasses:
-#                - PHPStan\Type\VerbosityLevel
-#                - Rector\NodeTypeResolver\ClassExistenceStaticHelper
-#
-#    # this rule prevents bug in phar like these: https://github.com/rectorphp/rector/pull/3692/files
-#    -
-#        class: Symplify\PHPStanRules\Rules\RequireStringArgumentInMethodCallRule
-#        tags: [phpstan.rules.rule]
-#        arguments:
-#            stringArgByMethodByType:
-#                Rector\Core\Rector\AbstractRector:
-#                    isObjectType: [1]
-#
-#    -
-#        class: Symplify\PHPStanRules\Rules\ClassNameRespectsParentSuffixRule
-#        tags: [phpstan.rules.rule]
-#        arguments:
-#            parentClasses:
-#                - Rector
-#
->>>>>>> cleanup
 #    -
 #        class: Symplify\PHPStanRules\Rules\PreferredClassRule
 #        tags: [phpstan.rules.rule]
@@ -164,10 +111,7 @@ services:
 #                'phpDocumentor\Reflection\DocBlock\Tags\Return_': 'PhpParser\Node\Stmt\Return_'
 #                'Closure': 'PhpParser\Node\Expr\Closure'
 #                'PHPUnit\TextUI\Configuration\Variable': 'PhpParser\Node\Expr\Variable'
-<<<<<<< HEAD
-=======
 #                'PhpCsFixer\FixerDefinition\CodeSample': 'Rector\Core\RectorDefinition\CodeSample'
->>>>>>> cleanup
 #                'SebastianBergmann\Type\MixedType': 'PHPStan\Type\MixedType'
 #                'Hoa\Protocol\Node\Node': 'PhpParser\Node'
 #                'Nette\Utils\FileSystem': 'Symplify\SmartFileSystem\SmartFileSystem'
@@ -180,10 +124,6 @@ services:
 #                PhpParser\Builder\Param: Rector\Core\PhpParser\Builder\ParamBuilder
 #                PhpParser\Builder\Property: Rector\Core\PhpParser\Builder\PropertyBuilder
 #                PhpParser\Builder\TraitUse: Rector\Core\PhpParser\Builder\TraitUseBuilder
-<<<<<<< HEAD
-=======
-
->>>>>>> cleanup
 
 parameters:
     level: max
@@ -497,8 +437,6 @@ parameters:
                 - packages/rector-generator/src/TemplateVariablesFactory.php
                 # output format to json
                 - rules/doctrine/src/Collector/UuidMigrationDataCollector.php
-                # should be replaced by symplify/composer-json-manipulator in the future
-                - compiler/src/Composer/ComposerJsonManipulator.php
 
         -
             message: '#Use explicit return value over magic &reference#'
@@ -814,3 +752,11 @@ parameters:
 
         - '#Instanceof between PhpParser\\Node\\Stmt and Rector\\Core\\PhpParser\\Node\\CustomNode\\FileWithoutNamespace will always evaluate to false#'
         - '#Class with base "Regex" name is already used in "MongoDB\\BSON\\Regex", "Symplify\\PHPStanRules\\ValueObject\\Regex"\. Use unique name to make classes easy to recognize#'
+
+        -
+             message: '#Class cognitive complexity is \d+, keep it under 40#'
+             paths:
+                  - src/Rector/AbstractRector.php
+                  - rules/php80/src/Rector/If_/NullsafeOperatorRector.php
+                  - rules/code-quality/src/Rector/For_/ForToForeachRector.php
+                  - rules/coding-style/src/Rector/Use_/RemoveUnusedAliasRector.php

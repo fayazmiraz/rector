@@ -85,7 +85,6 @@ final class VisibilityManipulator
     }
 
     /**
-<<<<<<< HEAD
      * This way "abstract", "static", "final" are kept
      *
      * @param ClassMethod|Property|ClassConst $node
@@ -110,7 +109,9 @@ final class VisibilityManipulator
         if ($node->isPrivate()) {
             $node->flags -= Class_::MODIFIER_PRIVATE;
         }
-=======
+    }
+
+    /**
      * @param ClassMethod|Property|ClassConst $node
      */
     public function changeNodeVisibility(Node $node, string $visibility): void
@@ -155,7 +156,6 @@ final class VisibilityManipulator
     public function makePrivate(Node $node): void
     {
         $this->replaceVisibilityFlag($node, 'private');
->>>>>>> cleanup
     }
 
     /**

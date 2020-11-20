@@ -6,9 +6,6 @@ namespace Rector\Compiler\PhpScoper;
 
 use Nette\Utils\Strings;
 
-/**
- * @see \Rector\Compiler\Tests\PhpScoper\StaticEasyPrefixerTest
- */
 final class StaticEasyPrefixer
 {
     /**
@@ -17,8 +14,6 @@ final class StaticEasyPrefixer
     public const EXCLUDED_CLASSES = [
         'Symfony\Component\EventDispatcher\EventSubscriberInterface',
         'Symfony\Component\Console\Style\SymfonyStyle',
-        // doctrine annotations to autocomplete
-        'JMS\DiExtraBundle\Annotation\Inject',
         // part of public interface of configs.php
         'Symfony\Component\DependencyInjection\Loader\Configurator\ContainerConfigurator',
     ];
@@ -31,9 +26,7 @@ final class StaticEasyPrefixer
         'PhpParser\*',
         'PHPStan\*',
         'Rector\*',
-        'Symplify\SmartFileSystem\*',
-        'Symplify\ConsoleColorDiff\*',
-        'Symplify\ComposerJsonManipulator\*',
+        'Symplify\*',
         'Migrify\*',
         // doctrine annotations to autocomplete
         'Doctrine\ORM\Mapping\*',

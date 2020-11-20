@@ -20,7 +20,7 @@ final class WhitelistedStubsProvider
         ];
 
         // mirrors https://github.com/phpstan/phpstan-src/commit/04f777bc4445725d17dac65c989400485454b145
-        $stubsDirectory = __DIR__ . '/../../vendor/jetbrains/phpstorm-stubs';
+        $stubsDirectory = __DIR__ . '/../../../../vendor/jetbrains/phpstorm-stubs';
         if (file_exists($stubsDirectory)) {
             $stubFinder = Finder::create()
                 ->files()

@@ -63,11 +63,6 @@
         "symplify/skipper": "dev-master",
         "symplify/package-scoper" : "dev-master",
         "symplify/symplify-kernel": "dev-master",
-<<<<<<< HEAD
-=======
-        "symplify/phpstan-extensions": "dev-master",
-        "symplify/phpstan-rules": "dev-master#369c858",
->>>>>>> cleanup
         "tracy/tracy": "^2.7"
     },
     "replace": {
@@ -83,6 +78,7 @@
         "psr-4": {
             "Rector\\Testing\\": "packages/testing/src",
             "Rector\\Architecture\\": "rules/architecture/src",
+            "Rector\\Compiler\\": "packages/compiler/src",
             "Rector\\AttributeAwarePhpDoc\\": "packages/attribute-aware-php-doc/src",
             "Rector\\Autodiscovery\\": "rules/autodiscovery/src",
             "Rector\\BetterPhpDocParser\\": "packages/better-php-doc-parser/src",
@@ -219,7 +215,6 @@
             "Rector\\CakePHP\\Tests\\": "rules/cakephp/tests",
             "Rector\\CodeQuality\\Tests\\": "rules/code-quality/tests",
             "Rector\\CodingStyle\\Tests\\": "rules/coding-style/tests",
-            "Rector\\Compiler\\Tests\\": "compiler/tests",
             "Rector\\Core\\Tests\\": "tests",
             "Rector\\DeadCode\\Tests\\": "rules/dead-code/tests",
             "Rector\\DoctrineCodeQuality\\Tests\\": "rules/doctrine-code-quality/tests",
