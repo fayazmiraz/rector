@@ -1,9 +1,7 @@
-/temp
-!/temp/.gitkeep
-/example
 /vendor
-/build
 composer.lock
+
+# PHPStorm meta files
 .idea/
 
 .phpunit.result.cache
@@ -11,13 +9,7 @@ composer.lock
 # often customized locally - example on Github is just fine
 rector-recipe.php
 
-# tests - travis
-/laravel-dir
-
-/tmp
-
 # testing
-abz
 /rector-temp-phpstan*.neon
 
 php-scoper.phar

@@ -46,7 +46,7 @@ jobs:
 
             -   run: vendor/bin/package-scoper scope-composer-json composer.json --ansi
             # see https://github.com/humbug/php-scoper#without-box
-            -   run: composer install --no-dev --prefer-dist
+            -   run: composer update --no-dev --prefer-dist --ansi
 
             # 2. scope it
             -   run: wget https://github.com/humbug/php-scoper/releases/download/0.13.8/php-scoper.phar
