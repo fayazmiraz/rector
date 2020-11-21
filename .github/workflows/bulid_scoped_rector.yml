@@ -50,7 +50,7 @@ jobs:
 
             # 2. scope it
             -   run: wget https://github.com/humbug/php-scoper/releases/download/0.13.8/php-scoper.phar
-            -   run: php php-scoper.phar add-prefix bin config packages rules src stubs tests templates composer.json --output-dir rector-scoped scoper.inc.php --force --ansi
+            -   run: php php-scoper.phar add-prefix bin config packages rules src stubs tests templates vendor composer.json --output-dir rector-scoped scoper.inc.php --force --ansi
             -   run: rm rector-scoped/php-scoper.phar
             -   run: composer dump-autoload --working-dir rector-scoped --ansi --optimize --classmap-authoritative
 
