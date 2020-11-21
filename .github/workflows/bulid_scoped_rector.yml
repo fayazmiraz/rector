@@ -69,10 +69,9 @@ jobs:
                 uses: "WyriHaximus/github-action-get-previous-tag@master"
 
             # 5. publish it to remote repository
-            # see https://github.com/cpina/github-action-push-to-another-repository
             -
                 # Uses an action in the root directory
-                uses: TomasVotruba/github-action-monorepo-split@master
+                uses: symplify/github-action-monorepo-split@master
                 env:
                     GITHUB_TOKEN: ${{ secrets.ACCESS_TOKEN }}
                 with:
@@ -80,3 +79,5 @@ jobs:
                     split-repository-organization: 'rectorphp'
                     split-repository-name: 'rector-prefixed'
                     tag: ${{ steps.previous_tag.outputs.tag }}
+                    user-name: "kaizen-ci"
+                    user-email: "info@kaizen-ci.org"
