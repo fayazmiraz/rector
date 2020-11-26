@@ -32,6 +32,7 @@
         "symfony/http-kernel": "^4.4.8|^5.1",
         "symfony/process": "^4.4.8|^5.1",
         "symplify/autowire-array-parameter": "dev-master",
+        "symplify/skipper": "dev-master",
         "symplify/composer-json-manipulator": "dev-master",
         "symplify/console-color-diff": "dev-master",
         "symplify/package-builder": "dev-master",
@@ -44,7 +45,7 @@
     "require-dev": {
         "cweagans/composer-patches": "^1.7",
         "friendsofphp/php-cs-fixer": "^2.16",
-        "vendor/vendor-patches": "^9.0",
+        "symplify/vendor-patches": "^9.0",
         "nette/application": "^3.0",
         "nette/di": "^3.0",
         "nette/forms": "^3.0",
