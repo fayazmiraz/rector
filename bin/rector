@@ -5,7 +5,6 @@ declare(strict_types=1);
 
 use Rector\Caching\Detector\ChangedFilesDetector;
 use Rector\Core\Bootstrap\ConfigShifter;
-use Rector\Core\Bootstrap\NoRectorsLoadedReporter;
 use Rector\Core\Configuration\Configuration;
 use Rector\Core\Configuration\MinimalVersionChecker;
 use Rector\Core\Configuration\MinimalVersionChecker\ComposerJsonParser;
