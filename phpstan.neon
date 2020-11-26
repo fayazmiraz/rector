@@ -123,6 +123,7 @@ parameters:
     # to allow installing with various phsptan versions without reporting old errors here
     bootstrapFiles:
         - vendor/symfony/dependency-injection/Loader/Configurator/ContainerConfigurator.php
+        - vendor/symplify/symfony-php-config/functions/functions.php
 
     scanDirectories:
         - stubs

@@ -11,7 +11,9 @@ use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
 use Symfony\Component\Console\Style\SymfonyStyle;
+use Symfony\Component\HttpKernel\KernelInterface;
 use Symplify\PackageBuilder\Console\ShellCode;
+use Symplify\SetConfigResolver\ValueObject\Set;
 use Throwable;
 
 /**
@@ -63,14 +65,16 @@ final class ValidateSetsCommand extends Command
                 continue;
             }
 
-            $rectorKernel = new RectorKernel('prod' . sha1($set->getName()), true);
-
-            $rectorKernel->setConfigs([$set->getSetPathname()]);
+            $setFileInfo = $set->getSetFileInfo();
 
             try {
-                $rectorKernel->boot();
+                $rectorKernel = $this->bootRectorKernelWithSet($set);
             } catch (Throwable $throwable) {
-                $message = 'Failed to load "%s" set from "%s" path';
+                $message = sprintf(
+                    'Failed to load "%s" set from "%s" path',
+                    $set->getName(),
+                    $setFileInfo->getRelativeFilePathFromCwd()
+                );
                 $this->symfonyStyle->error($message);
                 $this->symfonyStyle->writeln($throwable->getMessage());
 
@@ -87,7 +91,7 @@ final class ValidateSetsCommand extends Command
 
             $setFileInfo = $set->getSetFileInfo();
             $message = sprintf(
-                'Set  "%s" loaded correctly from "%s" path with %d rules',
+                'Set "%s" loaded correctly from "%s" path with %d rules',
                 $set->getName(),
                 $setFileInfo->getRelativeFilePathFromCwd(),
                 count($activeRectors)
@@ -97,5 +101,14 @@ final class ValidateSetsCommand extends Command
         }
 
         return $hasErrors ? ShellCode::ERROR : ShellCode::SUCCESS;
+    }
+
+    private function bootRectorKernelWithSet(Set $set): KernelInterface
+    {
+        $rectorKernel = new RectorKernel('prod' . sha1($set->getName()), true);
+        $rectorKernel->setConfigs([$set->getSetPathname()]);
+        $rectorKernel->boot();
+
+        return $rectorKernel;
     }
 }
